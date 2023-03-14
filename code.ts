@@ -172,7 +172,7 @@ figma.ui.onmessage = async (msg) => {
     // figma.viewport.scrollAndZoomIntoView(node);
     // //end of test code
     //toast 
-    figma.notify("✅ Icon Added");
+    figma.notify("✅ Gradient Added");
     figma.viewport.scrollAndZoomIntoView(node);
     figma.currentPage.selection = node;
 
