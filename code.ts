@@ -4,8 +4,8 @@
 // You can access browser APIs in the <script> tag inside "ui.html" which has a
 // full browser environment (see documentation).
 // This shows the HTML page in "ui.html".
-figma.showUI(__html__, { title: "Gradify", width: 275, height: 360, themeColors: !0 });
-figma.ui.resize(300, 300)
+figma.showUI(__html__, { title: "Gradify", width: 275, height: 320, themeColors: !0 });
+
 // Calls to "parent.postMessage" from within the HTML page will trigger this
 // callback. The callback will be passed the "pluginMessage" property of the
 // posted message.
@@ -14,17 +14,17 @@ figma.ui.onmessage = async (msg) => {
   // your HTML page is to use an object with a "type" property like this.
 
   await figma.loadFontAsync({ family: "Rubik", style: "Regular" })
-  if (msg.type === 'create-rectangles') {
+  if (msg.type === 'create-gradients') {
     const node: SceneNode[] = [];
     console.log("code ts: palette no" + msg.palette)
     console.log("code ts: angle no" + msg.angle)
 
     //HUE GRADIENT GENRATOR
     //color lib : pastel colors
-    const colorlib1 = ["#EDF2FB", "#CCDBFD", "#ABC4FF", "#FFC09F", "#A0CED9", "#ADF7B6", "#FFEE93", "#DDEDEA", "#DAEAF6", "#E8DFF5"]
+    const colorlib1 = ["#EDF2FB", "#CCDBFD", "#ABC4FF", "#FFC09F", "#A0CED9", "#ADF7B6", "#FFEE93", "#DDEDEA", "#DAEAF6", "#E8DFF5", "#BBD6B8", "#F7C8E0", "#B9F3FC", "#F1F7B5"]
     //dark colors 
-    const colorlib2 = ["#FF4F35", "#7EBFFE", "#FF78A7", "#FEAB52"]
-    const colorlib3 = ["#F7BCEF", "#FF4880", "#00B0FF", "#00FF75"]
+    const colorlib2 = ["#865DFF", "#16FF00", "#8DCBE6", "#F3CCFF", "#00F5FF", "#00FFD1", "#F637EC", "#FF4949", "#00FFAB"]
+    const colorlib3 = ["#AD7BE9", "#AD7BE9", "#8BF5FA", "#3F979B", , "#93BFCF", "#A084DC", "#82AAE3", "#00E7FF", "#F6F6C9", "#9F73AB", "#CDFCF6", "#FFD124", "#99FEFF"]
     const colorlib4 = ["#0035FF", "#FF8993", "#8900C9", "#00E5E0"]
     function rand() {
       return Math.floor(Math.random() * 11)
@@ -136,8 +136,6 @@ figma.ui.onmessage = async (msg) => {
       ]
     }]
     node.push(tintNode);
-
-
     //test code 
     // let ellipseNode = figma.createEllipse();
 
@@ -147,7 +145,6 @@ figma.ui.onmessage = async (msg) => {
     //     { position: 1, color: { r: color2R, g: color2G, b: color2B, a: 1 } }
     //   ]
     // }]
-
     // // Create a new Rectangle node with a Grain effect
     // let grainNode = figma.createRectangle();
     // // Set the image source for the image fill
@@ -175,7 +172,6 @@ figma.ui.onmessage = async (msg) => {
     figma.notify("✅ Gradient Added");
     figma.viewport.scrollAndZoomIntoView(node);
     figma.currentPage.selection = node;
-
   }
 
   if (msg.type === 'cancel') {

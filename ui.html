@@ -1,46 +1,23 @@
 <!-- <img src="/assets/image.png" alt="efaih"> -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
   integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-
-
-
 <div class="body">
   <div class="palette-input">
     <div class="palette-header">Select the Color style</div>
     <select id="palette">
-      <option value="1">palette 1 : pastel colors</option>
-      <option value="2">palette 2</option>
-      <option value="3">palette 3</option>
-      <option value="4">palette 4</option>
+      <option id="pastel" value="1">palette 1 : <b> pastel colors </b></option>
+      <option value="2">palette 2 :<b> Neon colors</b></option>
+      <option value="3">palette 3 :<b> Cool colors </b></option>
+      <option value="4">palette 4 :<b> </b></option>
     </select>
   </div>
-
 
   <div class="angle-header">Select the Angle</div>
-
-  <div class="angle-input">
-    <select id="angle">
-      <option value="0">0 degree</option>
-      <option value="45">45 degree</option>
-      <option value="90">90 degree</option>
-      <option value="135">135 degree</option>
-    </select>
+  <div>
+    <input type="range" min="45" max="360" step="45" name="Angle" id="angleRange">
+    <p>Angle: <output id="AngleDisplay"></output>°</p>
   </div>
-
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-    var values = [45, 90, 135, 180];
-    $('#slider1').on('input', e => $('span').text(values[e.target.value]));
-    console.log(e.target.value)
-  </script> -->
-
-
-  <!-- <form id="sliderData">
-    <input id="slider1" type="range" min="0" max="4" value="0">
-    <span>45</span>
-  </form> -->
-
   <div class="buttons">
-
     <button id="create" class="btn btn-primary">create</button>
     <button id="cancel" class="btn btn-outline-dark">cancel</button>
   </div>
@@ -54,13 +31,23 @@
 </div>
 
 <script>
+
+
+
+  const value = document.getElementById("AngleDisplay")
+  const input = document.getElementById("angleRange")
+  value.textContent = input.value
+  input.addEventListener("input", (event) => {
+    value.textContent = event.target.value
+  })
+
   document.getElementById('create').onclick = () => {
     const palette = document.getElementById("palette").value;
     console.log("ui html : palette no" + palette)
-    const angle = document.getElementById("angle").value;
+    const angle = document.getElementById("AngleDisplay").value;
     console.log("ui html : angle no " + angle)
 
-    parent.postMessage({ pluginMessage: { type: 'create-rectangles', palette, angle } }, '*')
+    parent.postMessage({ pluginMessage: { type: 'create-gradients', palette, angle } }, '*')
   }
   document.getElementById('cancel').onclick = () => {
     parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
@@ -128,5 +115,11 @@
   #id option {
     font-weight: 300;
     color: aqua;
+  }
+
+  .container {
+    width: 500px;
+    margin: 50px auto 0;
+    text-align: center
   }
 </style>
