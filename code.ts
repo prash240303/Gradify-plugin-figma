@@ -1,28 +1,16 @@
-// This plugin will open a window to prompt the user to enter a number, and
-// it will then create that many rectangles on the screen.
-// This file holds the main code for the plugins. It has access to the *document*.
-// You can access browser APIs in the <script> tag inside "ui.html" which has a
-// full browser environment (see documentation).
-// This shows the HTML page in "ui.html".
 figma.showUI(__html__, {
   title: "Gradify",
   width: 275,
   height: 320,
-  themeColors: !0,
 });
 
-// Calls to "parent.postMessage" from within the HTML page will trigger this
-// callback. The callback will be passed the "pluginMessage" property of the
-// posted message.
 figma.ui.onmessage = async (msg) => {
-  // One way of distinguishing between different types of messages sent from
-  // your HTML page is to use an object with a "type" property like this.
-
   await figma.loadFontAsync({ family: "Rubik", style: "Regular" });
-  if (msg.type === "create-gradients") {
+  if (msg.type === "create") {
     const node: SceneNode[] = [];
-    console.log("code ts: palette no" + msg.palette);
-    console.log("code ts: angle no" + msg.angle);
+
+    console.log("code ts: palette no: " + msg.palette);
+    console.log("code ts: angle :" + msg.angle);
 
     //HUE GRADIENT GENRATOR
     //color lib : pastel colors
@@ -60,7 +48,6 @@ figma.ui.onmessage = async (msg) => {
       "#AD7BE9",
       "#8BF5FA",
       "#3F979B",
-      ,
       "#93BFCF",
       "#A084DC",
       "#82AAE3",
@@ -71,18 +58,28 @@ figma.ui.onmessage = async (msg) => {
       "#FFD124",
       "#99FEFF",
     ];
-    //
+
     const colorlib4 = ["#0035FF", "#FF8993", "#8900C9", "#00E5E0"];
+
     function rand() {
       return Math.floor(Math.random() * 11);
     }
 
     let hexCol1;
     let hexCol2;
+
+    //creating a frame to contain all the rectanges
     const tintNode = figma.createFrame();
+    tintNode.name = "Gradient";
     tintNode.cornerRadius = 20;
     tintNode.resize(150, 150);
-    tintNode.itemSpacing = 20;
+
+    // rect for gradient fill
+    const gradientrect = figma.createRectangle();
+    gradientrect.name = "Gradient fill";
+    gradientrect.cornerRadius = 20;
+    gradientrect.resize(150, 150);
+
     switch (msg.palette) {
       case "1":
         hexCol1 = colorlib1[rand()];
@@ -179,7 +176,7 @@ figma.ui.onmessage = async (msg) => {
     let angle = msg.angle;
     console.log(angle);
     // console.log()
-    tintNode.fills = [
+    gradientrect.fills = [
       {
         type: "GRADIENT_LINEAR",
         gradientTransform: DEFAULT_AFFINE_TRANSFORMS[angle],
@@ -189,7 +186,11 @@ figma.ui.onmessage = async (msg) => {
         ],
       },
     ];
+    tintNode.appendChild(gradientrect);
     node.push(tintNode);
+
+    // noise function
+
     const imageUrl =
       "https://cdn.dribbble.com/userupload/7416672/file/original-e5a33c53f346f07a3c3cefb06a3e911d.png?compress=1&resize=1024x1024";
 
@@ -200,23 +201,26 @@ figma.ui.onmessage = async (msg) => {
         const imageHash = figma.createImage(imageUint8Array).hash;
 
         // Create a rectangle node
-        const rectangle = figma.createRectangle();
-        rectangle.resize(150, 150); // Set the width and height of the rectangle
-        rectangle.cornerRadius = 20;
+        const noise = figma.createRectangle();
+        noise.name = "noise";
+        noise.resize(150, 150); // Set the width and height of the rectangle
+        noise.cornerRadius = 20;
 
-        rectangle.fills = [
+        noise.fills = [
           {
             type: "IMAGE",
-            scaleMode: "FIT",
+            scaleMode: "CROP",
             imageHash: imageHash,
+            blendMode: "OVERLAY",
           },
         ];
 
-        rectangle.opacity =0.1;
+        noise.opacity = 0.8;
 
         // Add the rectangle to the current page
-        figma.currentPage.appendChild(rectangle);
-        node.push(rectangle);
+        // figma.currentPage.appendChild(rectangle);
+
+        tintNode.appendChild(noise);
         // Zoom to fit the newly created rectangle
 
         figma.notify("✅ Gradient Added");
@@ -230,6 +234,10 @@ figma.ui.onmessage = async (msg) => {
       .catch((error) => {
         console.error("Error loading image:", error);
       });
+
+    if (msg.type == "cancel") {
+      figma.closePlugin();
+    }
   }
 };
 
