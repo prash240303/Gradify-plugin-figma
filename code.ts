@@ -1,12 +1,15 @@
+// import { Linear } from "gsap";
+
 figma.showUI(__html__, {
-  title: "Gradify",
   width: 275,
   height: 320,
 });
 
 figma.ui.onmessage = async (msg) => {
   await figma.loadFontAsync({ family: "Rubik", style: "Regular" });
-  if (msg.type === "create") {
+
+  if(msg.gradientType="LINEAR"){
+  if (msg.type === "createLinear") {
     const node: SceneNode[] = [];
 
     console.log("code ts: palette no: " + msg.palette);
@@ -80,7 +83,7 @@ figma.ui.onmessage = async (msg) => {
     gradientrect.cornerRadius = 20;
     gradientrect.resize(150, 150);
 
-    switch (msg.palette) {
+    switch (msg.paletteNo) {
       case "1":
         hexCol1 = colorlib1[rand()];
         hexCol2 = colorlib1[rand()];
@@ -129,7 +132,8 @@ figma.ui.onmessage = async (msg) => {
           }
         : null;
     };
-    const color1R = hexToRBG(hexCol1).r / 255;
+    const color1R = hexToRBG(hexCol1).r / 300;
+    console.log("value of  r" , color1R)
     const color1G = hexToRBG(hexCol1).g / 255;
     const color1B = hexToRBG(hexCol1).b / 255;
     const color2R = hexToRBG(hexCol2).r / 255;
@@ -176,6 +180,7 @@ figma.ui.onmessage = async (msg) => {
     let angle = msg.angle;
     console.log(angle);
     // console.log()
+    //hi
     gradientrect.fills = [
       {
         type: "GRADIENT_LINEAR",
@@ -239,7 +244,14 @@ figma.ui.onmessage = async (msg) => {
       figma.closePlugin();
     }
   }
-};
+}
 
+else if(msg.gradientType="MESH")
+{
+  if(msg.type="createMesh"){
+console.log("mesh selected")
+  }
+}
+}
 // Make sure to close the plugin when you're done. Otherwise the plugin will
 // keep running, which shows the cancel button at the bottom of the screen.

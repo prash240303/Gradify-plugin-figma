@@ -1,88 +1,128 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css">
-
-
-
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css">
 
 <div class="body">
   <div>
-    <ul class="menu-bar">
-      <li>
-        <button class="Linear button button--primary">Linear</button>
-      </li>
-      <li>
-        <button class="Mesh button button--primary">Mesh</button>
-      </li>
-    </ul>
+    <label>
+      <input type="radio" name="gradientType" value="linear" id="linearToggle" checked />
+      Linear Gradient
+    </label>
+    <label>
+      <input type="radio" name="gradientType" value="mesh" id="meshToggle" />
+      Mesh Gradient
+    </label>
   </div>
 
 
-  <!-- for mesh gradient -->
-
-
-
-  <!-- for linear gradient -->
-  <div class="palette-input">
-    <div class="palette-header">Select the Color style</div>
-    <select id="palette">
-      <option id="pastel" value="1">palette 1 : <b> pastel colors </b></option>
-      <option value="2">palette 2 :<b> Neon colors</b></option>
-      <option value="3">palette 3 :<b> cold colors </b></option>
-      <option value="4">palette 4 :<b> </b></option>
-    </select>
+  <div class="meshGradientInput">
+    <input type="checkbox" id="darkbg" value="dark">
+    <label for="darkbg">Dark Background</label>
   </div>
+  <div class="linearGradientInputContainer">
+    <div class="linearGradientInput">
 
-  <div class="angle-header">Select the Angle</div>
-  <div>
-    <input type="range" min="45" max="360" step="45" name="Angle" id="angleRange">
-    <p>Angle: <output id="AngleDisplay"></output>°</p>
-  </div>
+      <div class="palette-input">
+      <div class="palette-header">Select the Color style</div>
+      <select id="palette">
+        <option id="pastel" value="1">palette 1 : <b> pastel colors </b></option>
+        <option value="2">palette 2 :<b> Neon colors</b></option>
+        <option value="3">palette 3 :<b> Cool colors </b></option>
+        <option value="4">palette 4 :<b> </b></option>
+      </select>
+    </div>
+   <div class="angle-header">Select the Angle</div>
+    <div>
+      <input type="range" min="45" max="360" step="45" name="Angle" id="angleRange">
+      <p>Angle: <output id="AngleDisplay"></output>°</p>
+    </div>
+    <div class="buttons">
+      <button id="create" class="btn btn-primary">create</button>
+      <button id="cancel" class="btn btn-outline-dark">cancel</button>
+    </div>
 
-
-
-  <div class="buttons">
-    <button id="create" class="btn btn-primary">create</button>
-    <button id="cancel" class="btn btn-outline-dark">cancel</button>
-  </div>
-  <div class="creds">
-    <p>
-      Created by Prashant
-      <br>
-      Github : @prash240303
-    </p>
-  </div>
-  </div>
+  </div></div>
 </div>
-
 <script>
 
+document.getElementById("create").addEventListener("click", () => {
+  const linearSelected = document.getElementById("linearToggle").checked;
+  const meshSelected = document.getElementById("meshToggle").checked;
 
+  if (linearSelected) {
+    document.getElementsByClassName("meshGradientInput").style.display="none";
+    const angle = document.getElementById("angleRange").value;
+    const paletteNo = document.getElementById("paletteInput").value;
 
-  const value = document.getElementById("AngleDisplay")
-  const input = document.getElementById("angleRange")
-  value.textContent = input.value
-  input.addEventListener("input", (event) => {
-    value.textContent = event.target.value
-  })
+    figma.ui.postMessage({
+      type: "create",
+      gradientType: "linear",
+      angle: angle,
+      paletteNo: paletteNo,
+    });
+  } else if (meshSelected) {
+    document.getElementsByClassName("linearGradientInputContainer").style.display="none"
+    const bgCheckbox = document.getElementById("bgCheckbox").checked;
+    const bgType = bgCheckbox ? "light" : "dark";
 
-  document.getElementById('create').onclick = () => {
-    const palette = document.getElementById("palette").value;
-    console.log("ui html : palette no" + palette)
-    const angle = document.getElementById("AngleDisplay").value;
-    console.log("ui html : angle no " + angle)
-
-    parent.postMessage({ pluginMessage: { type: 'create', palette, angle } }, '*')
+    figma.ui.postMessage({
+      type: "create",
+      gradientType: "mesh",
+      bgType: bgType,
+    });
   }
-  document.getElementById('cancel').onclick = () => {
-    parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
-  }
+}); -->
 
-</script>
-<!-- Standard link tag-->
+<!-- // document.getElementById("linearToggle").addEventListener("change", () => {
+//   const linearGradientInputContainer = document.getElementById(
+//     "linearGradientInputContainer"
+//   );
+
+//   if (document.getElementById("linearToggle").checked) {
+//     linearGradientInputContainer.style.display = "block";
+//   } else {
+//     linearGradientInputContainer.style.display = "none";
+//   }
+// });
+
+// document.getElementById("meshToggle").addEventListener("change", () => {
+//   const linearGradientInputContainer = document.getElementById(
+//     "linearGradientInputContainer"
+//   );
+
+//   if (document.getElementById("meshToggle").checked) {
+//     linearGradientInputContainer.style.display = "none";
+//   } else {
+//     linearGradientInputContainer.style.display = "block";
+//   }
+// });
+
+
+
+  // const value = document.getElementById("AngleDisplay")
+  // const input = document.getElementById("angleRange")
+  // value.textContent = input.value
+  // input.addEventListener("input", (event) => {
+  //   value.textContent = event.target.value
+  // })
+
+  // document.getElementById('create').onclick = () => {
+  //   const palette = document.getElementById("palette").value;
+  //   console.log("ui html : palette no" + palette)
+  //   const angle = document.getElementById("AngleDisplay").value;
+  //   console.log("ui html : angle no " + angle)
+  //   parent.postMessage({ pluginMessage: { type: 'create', palette, angle } }, '*')
+  // }
+
+
+  // document.getElementById('cancel').onclick = () => {
+  //   parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+  // } -->
+
+<!-- </script> -->
+
+<!-- 
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,500&family=Space+Grotesk:wght@300;400;500&display=swap');
-</style>
-
-<style>
   body {
     display: flex;
     flex-direction: column;
@@ -101,14 +141,14 @@
 
   }
 
-  .menu-bar li{
-    display: inline;
-  }
-  .menu-bar li button{
+  .menu-bar li {
     display: inline;
   }
 
-  /* .linear {} */
+  .menu-bar li button {
+    display: inline;
+  }
+
 
   .palette-input {
     flex: none;
@@ -172,6 +212,208 @@
     height: 34px;
   }
 
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+
+
+
+
+  
+</style> -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css">
+
+<div class="body">
+  <div>
+    <label>
+      <input type="radio" name="gradientType" value="linear" id="linearToggle" checked  />
+      Linear Gradient
+    </label>
+    <label>
+      <input type="radio" name="gradientType" value="mesh" id="meshToggle" />
+      Mesh Gradient
+    </label>
+  </div>
+
+  <!-- for mesh gradient -->
+  <div id="meshGradientInput">
+    <input type="checkbox" id="darkbg" value="dark">
+    <label for="darkbg">Dark Background</label>
+  </div>
+
+  <div id="linearGradientInputContainer">
+    <!-- for linear gradient -->
+    <div class="palette-input">
+      <div class="palette-header">Select the Color style</div>
+      <select id="paletteInput">
+        <option id="pastel" value="1">palette 1 : <b> pastel colors </b></option>
+        <option value="2">palette 2 :<b> Neon colors</b></option>
+        <option value="3">palette 3 :<b> Cool colors </b></option>
+        <option value="4">palette 4 :<b></b></option>
+      </select>
+    </div>
+    <div class="angle-input">
+      <div class="angle-header">Select the Angle</div>
+      <div>
+        <input type="range" min="45" max="360" step="45" name="Angle" id="angleRange">
+        <p>Angle: <output id="AngleDisplay"></output>°</p>
+      </div>
+    </div>
+    
+  </div>
+  <div class="buttons">
+    <button id="create" class="btn btn-primary">create</button>
+    <button id="cancel" class="btn btn-outline-dark">cancel</button>
+  </div>
+</div>
+<script>
+  const meshSel= document.getElementById("meshToggle");
+  meshSel.addEventListener("change", () => {
+            if (meshSel.checked) {
+                meshGradientInput.style.display = "block";
+                linearGradientInputContainer.style.display = "none";
+
+            } else if(meshSel.checked==false) {
+                meshGradientInput.style.display = "none";
+                linearGradientInputContainer.style.display = "block";
+
+            }
+        });
+  const linsel= document.getElementById("linearToggle");
+  linsel.addEventListener("change", () => {
+            if (linsel.checked) {
+              linearGradientInputContainer.style.display = "block";
+              meshGradientInput.style.display = "none";
+
+            } else if(linsel.checked==false) {
+              linearGradientInputContainer.style.display = "none";
+              meshGradientInput.style.display="block;"
+            }
+        });
+
+
+  document.getElementById("create").addEventListener("click", () => {
+    const linearSelected = document.getElementById("linearToggle").checked;
+    const meshSelected = document.getElementById("meshToggle").checked;
+    console.log("mesh is selected" , meshSelected)
+
+  
+     if (meshSelected) {
+      // const bgCheckbox = document.getElementById("darkbg").checked;
+      // const bgType = bgCheckbox ? "light" : "dark";
+
+      // parent.postMessage({
+      //   type: "create",
+      //   gradientType: "mesh",
+      //   bgType: bgType,
+      // });
+      parent.postMessage({ pluginMessage: { type: 'createMesh', gradientType:"MESH" } }, '*')
+
+    }
+    else  {
+      const angle = document.getElementById("angleRange").value;
+      const paletteNo = document.getElementById("paletteInput").value;
+
+      // parent.postMessage({
+      //   type: "create",
+      //   gradientType: "linear",
+      //   angle: angle,
+      //   paletteNo: paletteNo,
+      // });
+
+      parent.postMessage({ pluginMessage: { type: 'createLinear', gradientType:"LINEAR",   angle } }, '*')
+
+    }
+  });
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,500&family=Space+Grotesk:wght@300;400;500&display=swap');
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Space Grotesk', cursive;
+    padding-top: 10px;
+    align-self: center;
+  }
+
+  .menu-bar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .menu-bar li {
+    display: inline;
+  }
+
+  .menu-bar li button {
+    display: inline;
+  }
+
+  .palette-input {
+    flex: none;
+    align-self: center;
+    order: 0;
+    flex-grow: 0;
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+
+  .angle-input {
+    flex: none;
+    align-self: center;
+    order: 1;
+    flex-grow: 0;
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+
+  .buttons {
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+    padding: 10px;
+  }
+
+  .creds {
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+  }
+
+  .creds p,
+  .twitter_Text {
+    font-size: small;
+  }
+
+  .palette-header {
+    font-weight: 500;
+  }
+
+  .angle-header {
+    font-weight: 500;
+  }
+
+  .container {
+    width: 500px;
+    margin: 50px auto 0;
+    text-align: center;
+  }
+
+  .switch {
+    display: block;
+    width: 60px;
+    height: 34px;
+  }
+
   /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
@@ -180,4 +422,9 @@
   .slider.round:before {
     border-radius: 50%;
   }
+
+ #meshGradientInput{
+  display: none;
+ }
+
 </style>
