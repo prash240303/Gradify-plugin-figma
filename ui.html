@@ -1,531 +1,4 @@
-<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css">
-
-<div class="body">
-  <div>
-    <label>
-      <input type="radio" name="gradientType" value="linear" id="linearToggle" checked />
-      Linear Gradient
-    </label>
-    <label>
-      <input type="radio" name="gradientType" value="mesh" id="meshToggle" />
-      Mesh Gradient
-    </label>
-  </div>
-
-
-  <div class="meshGradientInput">
-    <input type="checkbox" id="darkbg" value="dark">
-    <label for="darkbg">Dark Background</label>
-  </div>
-  <div class="linearGradientInputContainer">
-    <div class="linearGradientInput">
-
-      <div class="palette-input">
-      <div class="palette-header">Select the Color style</div>
-      <select id="palette">
-        <option id="pastel" value="1">palette 1 : <b> pastel colors </b></option>
-        <option value="2">palette 2 :<b> Neon colors</b></option>
-        <option value="3">palette 3 :<b> Cool colors </b></option>
-        <option value="4">palette 4 :<b> </b></option>
-      </select>
-    </div>
-   <div class="angle-header">Select the Angle</div>
-    <div>
-      <input type="range" min="45" max="360" step="45" name="Angle" id="angleRange">
-      <p>Angle: <output id="AngleDisplay"></output>°</p>
-    </div>
-    <div class="buttons">
-      <button id="create" class="btn btn-primary">create</button>
-      <button id="cancel" class="btn btn-outline-dark">cancel</button>
-    </div>
-
-  </div></div>
-</div>
-<script>
-
-document.getElementById("create").addEventListener("click", () => {
-  const linearSelected = document.getElementById("linearToggle").checked;
-  const meshSelected = document.getElementById("meshToggle").checked;
-
-  if (linearSelected) {
-    document.getElementsByClassName("meshGradientInput").style.display="none";
-    const angle = document.getElementById("angleRange").value;
-    const paletteNo = document.getElementById("paletteInput").value;
-
-    figma.ui.postMessage({
-      type: "create",
-      gradientType: "linear",
-      angle: angle,
-      paletteNo: paletteNo,
-    });
-  } else if (meshSelected) {
-    document.getElementsByClassName("linearGradientInputContainer").style.display="none"
-    const bgCheckbox = document.getElementById("bgCheckbox").checked;
-    const bgType = bgCheckbox ? "light" : "dark";
-
-    figma.ui.postMessage({
-      type: "create",
-      gradientType: "mesh",
-      bgType: bgType,
-    });
-  }
-}); -->
-
-<!-- // document.getElementById("linearToggle").addEventListener("change", () => {
-//   const linearGradientInputContainer = document.getElementById(
-//     "linearGradientInputContainer"
-//   );
-
-//   if (document.getElementById("linearToggle").checked) {
-//     linearGradientInputContainer.style.display = "block";
-//   } else {
-//     linearGradientInputContainer.style.display = "none";
-//   }
-// });
-
-// document.getElementById("meshToggle").addEventListener("change", () => {
-//   const linearGradientInputContainer = document.getElementById(
-//     "linearGradientInputContainer"
-//   );
-
-//   if (document.getElementById("meshToggle").checked) {
-//     linearGradientInputContainer.style.display = "none";
-//   } else {
-//     linearGradientInputContainer.style.display = "block";
-//   }
-// });
-
-
-
-  // const value = document.getElementById("AngleDisplay")
-  // const input = document.getElementById("angleRange")
-  // value.textContent = input.value
-  // input.addEventListener("input", (event) => {
-  //   value.textContent = event.target.value
-  // })
-
-  // document.getElementById('create').onclick = () => {
-  //   const palette = document.getElementById("palette").value;
-  //   console.log("ui html : palette no" + palette)
-  //   const angle = document.getElementById("AngleDisplay").value;
-  //   console.log("ui html : angle no " + angle)
-  //   parent.postMessage({ pluginMessage: { type: 'create', palette, angle } }, '*')
-  // }
-
-
-  // document.getElementById('cancel').onclick = () => {
-  //   parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
-  // } -->
-
-<!-- </script> -->
-
-<!-- 
-
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,500&family=Space+Grotesk:wght@300;400;500&display=swap');
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Space Grotesk', cursive;
-    padding-top: 10px;
-    align-self: center;
-  }
-
-
-  .menu-bar {
-
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-
-  }
-
-  .menu-bar li {
-    display: inline;
-  }
-
-  .menu-bar li button {
-    display: inline;
-  }
-
-
-  .palette-input {
-    flex: none;
-    align-self: center;
-    order: 0;
-    flex-grow: 0;
-    margin-bottom: 10px;
-    padding: 5px;
-  }
-
-  .angle-input {
-    flex: none;
-    align-self: center;
-    order: 1;
-    flex-grow: 0;
-    margin-bottom: 10px;
-    padding: 5px;
-  }
-
-  .buttons {
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-    padding: 10px;
-  }
-
-  .creds {
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-  }
-
-  .creds p,
-  .twitter_Text {
-    font-size: small;
-  }
-
-  .palette-header {
-    font-weight: 500;
-  }
-
-  .angle-header {
-    font-weight: 500;
-  }
-
-  #id option {
-    font-weight: 300;
-    color: aqua;
-  }
-
-  .container {
-    width: 500px;
-    margin: 50px auto 0;
-    text-align: center
-  }
-
-
-  .switch {
-    display: block;
-    width: 60px;
-    height: 34px;
-  }
-
-  .slider.round {
-    border-radius: 34px;
-  }
-
-  .slider.round:before {
-    border-radius: 50%;
-  }
-
-
-
-
-
-  
-</style> -->
-
-<!-- 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css">
-
-<div class="body">
-  <div>
-    <label class="toggleLabel">
-      <input type="radio" class="toggle" name="gradientType" value="mesh" id="meshToggle" checked />
-      Mesh Gradient
-    </label>
-    <label class="toggleLabel">
-      <input type="radio" class="toggle" name="gradientType" value="linear" id="linearToggle" />
-      Linear Gradient
-    </label>
-
-  </div>
-
-  <div id="meshGradientInput">
-
-
-    <div class="switch-container">
-      <span class="switch-label">Light Bg</span>
-      <label class="switch" for="darkbg">
-
-        <input type="checkbox" id="darkbg" value="dark">
-        <span class="slider round"></span>
-
-      </label>
-      <span class="switch-label">dark Bg</span>
-
-    </div>
-
-  </div>
-
-  <div id="linearGradientInputContainer">
-    <div class="palette-input">
-      <div class="palette-header">Select the Color style</div>
-      <select id="paletteInput">
-        <option id="pastel" value="1">palette 1 : <b> pastel colors </b></option>
-        <option value="2">palette 2 :<b> Neon colors</b></option>
-        <option value="3">palette 3 :<b> Cool colors </b></option>
-        <option value="4">palette 4 :<b></b></option>
-      </select>
-    </div>
-    <div class="angle-input">
-      <div class="angle-header">Select the Angle</div>
-      <div>
-        <input type="range" min="45" max="360" step="45" name="Angle" id="angleRange">
-        <p>Angle: <output id="AngleDisplay"></output>°</p>
-      </div>
-    </div>
-
-  </div>
-  <div class="buttons">
-    <button id="create" class="btn btn-primary">create</button>
-    <button id="cancel" class="btn btn-outline-dark">cancel</button>
-  </div>
-</div>
-
-
-<script>
-  const meshSel = document.getElementById("meshToggle");
-
-  meshSel.addEventListener("change", () => {
-    if (meshSel.checked) {
-      meshGradientInput.style.display = "block";
-      linearGradientInputContainer.style.display = "none";
-
-    }
-  });
-
-
-  const linsel = document.getElementById("linearToggle");
-
-  linsel.addEventListener("change", () => {
-    if (linsel.checked) {
-      linearGradientInputContainer.style.display = "block";
-      meshGradientInput.style.display = "none";
-
-    }
-  });
-
-
-  document.getElementById("create").addEventListener("click", () => {
-    const linearSelected = document.getElementById("linearToggle").checked;
-    const meshSelected = document.getElementById("meshToggle").checked;
-    console.log("mesh is selected", meshSelected)
-
-
-    if (meshSelected) {
-      const bgCheckbox = document.getElementById("darkbg").checked;
-      const bgType = bgCheckbox ? "dark" : "light";
-
-
-      parent.postMessage({ pluginMessage: { type: 'createMesh', bgType } }, '*')
-
-    }
-    else {
-      const angle = document.getElementById("angleRange").value;
-      const palette = document.getElementById("paletteInput").value;
-
-
-
-      parent.postMessage({ pluginMessage: { type: 'createLinear', palette, angle } }, '*')
-
-    }
-
-
-  });
-
-  document.getElementById("cancel").addEventListener("click", () => {
-    parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
-  })
-</script>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,500&family=Space+Grotesk:wght@300;400;500&display=swap');
-
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Space Grotesk', cursive;
-    padding-top: 10px;
-    align-self: center;
-    background: #000;
-    color: white;
-  }
-
-  .menu-bar {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .menu-bar li {
-    display: inline;
-  }
-
-  .menu-bar li button {
-    display: inline;
-  }
-
-  .palette-input {
-    flex: none;
-    align-self: center;
-    order: 0;
-    flex-grow: 0;
-    margin-bottom: 10px;
-    padding: 5px;
-  }
-
-  .angle-input {
-    flex: none;
-    align-self: center;
-    order: 1;
-    flex-grow: 0;
-    margin-bottom: 10px;
-    padding: 5px;
-  }
-
-  .buttons {
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-    padding: 10px;
-  }
-
-  .creds {
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-  }
-
-  .creds p,
-  .twitter_Text {
-    font-size: small;
-  }
-
-  .palette-header {
-    font-weight: 500;
-  }
-
-  .angle-header {
-    font-weight: 500;
-  }
-
-  .container {
-    width: 500px;
-    margin: 50px auto 0;
-    text-align: center;
-  }
-
-  .switch {
-    display: block;
-    width: 60px;
-    height: 34px;
-  }
-
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-
-  .slider.round:before {
-    border-radius: 50%;
-  }
-
-  #linearGradientInputContainer {
-    display: none;
-  }
-
-
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 42px;
-    height: 24px;
-  }
-
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 2px;
-    top: 2px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-
-  input:checked+.slider {
-    background-color: #000000;
-  }
-
-  input:focus+.slider {
-    box-shadow: 0 0 1px #000000;
-  }
-
-  input:checked+.slider:before {
-    -webkit-transform: translateX(18px);
-    -ms-transform: translateX(18px);
-    transform: translateX(18px);
-  }
-
-  .slider.round {
-    border-radius: 50px;
-  }
-
-  .slider.round:before {
-    border-radius: 50%;
-  }
-
-
-  .switch-label {
-    line-height: 24px;
-  }
-
-  .switch-container {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-  }
-  .toggle{
-    cursor: pointer;
-    border: 2px solid red;
-  }
-  .toggleLabel{
-    width: 70px;
-    border: 2px solid red;
-  }
-</style>
- -->
-
-
-<!-- <link rel="stylesheet" href="plugin.css"> -->
-
 <body>
-
-
   <div class="main">
 
     <div class="glass-container">
@@ -537,7 +10,6 @@ document.getElementById("create").addEventListener("click", () => {
           <div id="ToggleMesh" class="toggle-inactive">
             Mesh
           </div>
-
         </div>
 
         <div id="meshMenu">
@@ -587,7 +59,6 @@ document.getElementById("create").addEventListener("click", () => {
 
 
     <script>
-
       const meshSel = document.getElementById("ToggleMesh");
       const linsel = document.getElementById("ToggleLin");
 
@@ -630,14 +101,8 @@ document.getElementById("create").addEventListener("click", () => {
           const angle = document.getElementById("angle").value;
           const palette = document.getElementById("palette").value;
           const LinOpacity = document.getElementById("noiseLinear").value / 100
-
-
-
           parent.postMessage({ pluginMessage: { type: 'createLinear', palette, angle, LinOpacity } }, '*')
-
         }
-
-
       });
 
       document.getElementById("cancel").addEventListener("click", () => {
@@ -662,14 +127,11 @@ document.getElementById("create").addEventListener("click", () => {
   }
 
   .main {
-
     align-items: center;
     width: 262px;
-    /* outline: 2px solid #1f17ff; */
     height: 362px;
     box-sizing: border-box;
     background-color: #1c1c1c;
-    /* background-image: url("./sky.png"); */
     background-repeat: no-repeat;
     background-size: 500px;
 
@@ -687,25 +149,19 @@ document.getElementById("create").addEventListener("click", () => {
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    /* gap: 23px; */
-
     width: 230px;
     height: 330px;
     background: rgba(255, 255, 255, 0.1);
-    /* Style */
-
     box-shadow: 0px 8px 6px rgba(0, 0, 0, 0.05),
       inset 0px -1px 1px rgba(255, 255, 255, 0.1),
       inset 0px 1px 1px rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(50px);
-    /* Note: backdrop-filter has minimal browser support */
     box-sizing: border-box;
     border-radius: 24px;
   }
 
   .contents-group {
     width: 198px;
-    /* height: 176px; */
     display: flex;
     gap: 24px;
     flex-direction: column;
@@ -713,7 +169,6 @@ document.getElementById("create").addEventListener("click", () => {
     box-sizing: border-box;
   }
 
-  /* linear mesh toggle */
 
   .toggle-container {
     display: flex;
@@ -729,7 +184,6 @@ document.getElementById("create").addEventListener("click", () => {
       inset 0px -0.843035px 0.843035px rgba(255, 255, 255, 0.1),
       inset 0px 0.843035px 0.843035px rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(42.1518px);
-    /* Note: backdrop-filter has minimal browser support */
     border-radius: 32px;
 
   }
@@ -739,19 +193,14 @@ document.getElementById("create").addEventListener("click", () => {
     cursor: pointer;
     flex-direction: row;
     justify-content: center;
-    /* padding-right: 20px; */
     align-items: center;
     padding-top: 6px;
-
     padding-bottom: 6px;
     width: 91px;
-    /* border: 2px solid red; */
     height: 34px;
     box-sizing: border-box;
-
     background: rgba(255, 255, 255, 0.3);
     border-radius: 32px;
-    /* transition: all 0.3s ease-in-out ; */
   }
 
   /* use this when the particular toggle (bw mesh and linear is selected for the non selected element) */
@@ -761,16 +210,13 @@ document.getElementById("create").addEventListener("click", () => {
     cursor: pointer;
     flex-direction: row;
     justify-content: center;
-    /* padding-right: 20px; */
     align-items: center;
     padding-top: 6px;
     padding-bottom: 6px;
     width: 91px;
-    /* border: 2px solid red; */
     height: 34px;
     border-radius: 32px;
     cursor: pointer;
-    /* border: blue 2px solid; */
     background-color: transparent;
     color: rgba(255, 255, 255, 0.66);
   }
@@ -782,7 +228,6 @@ document.getElementById("create").addEventListener("click", () => {
   .toggle-label {
     font-style: normal;
     font-weight: 500;
-    /* identical to box height, or 183% */
     font-size: 16px;
     line-height: 22px;
     letter-spacing: -0.202328px;
@@ -797,18 +242,13 @@ document.getElementById("create").addEventListener("click", () => {
 
 
 
-
-
-
   #meshMenu {
     width: 198px;
     height: 106px;
-    /* display: flex; */
     align-items: center;
     justify-content: center;
     gap: 32px;
     display: none;
-    /* box-sizing: border-box; */
     flex-direction: column;
   }
 
@@ -1078,8 +518,6 @@ document.getElementById("create").addEventListener("click", () => {
 
   /* linear menu */
 
-
-
   #linearMenu {
     width: 198px;
     height: 148px;
@@ -1130,9 +568,6 @@ document.getElementById("create").addEventListener("click", () => {
   #palette:focus {
     border: none;
   }
-
-
-
 
   #palette>option {
     width: 20px;

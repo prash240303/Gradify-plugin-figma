@@ -1,7 +1,7 @@
 
 figma.showUI(__html__, {
   width: 262,
-  height: 328,
+  height: 362,
   
 } );
 
@@ -35,7 +35,6 @@ function getNextElementDark() {
 
 
 figma.ui.onmessage = async (msg) => {
-  // await figma.loadFontAsync({ family: "Rubik", style: "Regular" });
   console.log("the message is " , msg.type)
   if(msg.type==="createLinear"){
   
