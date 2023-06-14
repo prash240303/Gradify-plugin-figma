@@ -227,28 +227,40 @@ document.getElementById("create").addEventListener("click", () => {
   
 </style> -->
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css">
+<!-- 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css">
 
 <div class="body">
   <div>
-    <label>
-      <input type="radio" name="gradientType" value="linear" id="linearToggle" checked  />
-      Linear Gradient
-    </label>
-    <label>
-      <input type="radio" name="gradientType" value="mesh" id="meshToggle" />
+    <label class="toggleLabel">
+      <input type="radio" class="toggle" name="gradientType" value="mesh" id="meshToggle" checked />
       Mesh Gradient
     </label>
+    <label class="toggleLabel">
+      <input type="radio" class="toggle" name="gradientType" value="linear" id="linearToggle" />
+      Linear Gradient
+    </label>
+
   </div>
 
-  <!-- for mesh gradient -->
   <div id="meshGradientInput">
-    <input type="checkbox" id="darkbg" value="dark">
-    <label for="darkbg">Dark Background</label>
+
+
+    <div class="switch-container">
+      <span class="switch-label">Light Bg</span>
+      <label class="switch" for="darkbg">
+
+        <input type="checkbox" id="darkbg" value="dark">
+        <span class="slider round"></span>
+
+      </label>
+      <span class="switch-label">dark Bg</span>
+
+    </div>
+
   </div>
 
   <div id="linearGradientInputContainer">
-    <!-- for linear gradient -->
     <div class="palette-input">
       <div class="palette-header">Select the Color style</div>
       <select id="paletteInput">
@@ -265,72 +277,68 @@ document.getElementById("create").addEventListener("click", () => {
         <p>Angle: <output id="AngleDisplay"></output>°</p>
       </div>
     </div>
-    
+
   </div>
   <div class="buttons">
     <button id="create" class="btn btn-primary">create</button>
     <button id="cancel" class="btn btn-outline-dark">cancel</button>
   </div>
 </div>
+
+
 <script>
-  const meshSel= document.getElementById("meshToggle");
+  const meshSel = document.getElementById("meshToggle");
+
   meshSel.addEventListener("change", () => {
-            if (meshSel.checked) {
-                meshGradientInput.style.display = "block";
-                linearGradientInputContainer.style.display = "none";
+    if (meshSel.checked) {
+      meshGradientInput.style.display = "block";
+      linearGradientInputContainer.style.display = "none";
 
-            } else if(meshSel.checked==false) {
-                meshGradientInput.style.display = "none";
-                linearGradientInputContainer.style.display = "block";
+    }
+  });
 
-            }
-        });
-  const linsel= document.getElementById("linearToggle");
+
+  const linsel = document.getElementById("linearToggle");
+
   linsel.addEventListener("change", () => {
-            if (linsel.checked) {
-              linearGradientInputContainer.style.display = "block";
-              meshGradientInput.style.display = "none";
+    if (linsel.checked) {
+      linearGradientInputContainer.style.display = "block";
+      meshGradientInput.style.display = "none";
 
-            } else if(linsel.checked==false) {
-              linearGradientInputContainer.style.display = "none";
-              meshGradientInput.style.display="block;"
-            }
-        });
+    }
+  });
 
 
   document.getElementById("create").addEventListener("click", () => {
     const linearSelected = document.getElementById("linearToggle").checked;
     const meshSelected = document.getElementById("meshToggle").checked;
-    console.log("mesh is selected" , meshSelected)
+    console.log("mesh is selected", meshSelected)
 
-  
-     if (meshSelected) {
-      // const bgCheckbox = document.getElementById("darkbg").checked;
-      // const bgType = bgCheckbox ? "light" : "dark";
 
-      // parent.postMessage({
-      //   type: "create",
-      //   gradientType: "mesh",
-      //   bgType: bgType,
-      // });
-      parent.postMessage({ pluginMessage: { type: 'createMesh', gradientType:"MESH" } }, '*')
+    if (meshSelected) {
+      const bgCheckbox = document.getElementById("darkbg").checked;
+      const bgType = bgCheckbox ? "dark" : "light";
+
+
+      parent.postMessage({ pluginMessage: { type: 'createMesh', bgType } }, '*')
 
     }
-    else  {
+    else {
       const angle = document.getElementById("angleRange").value;
-      const paletteNo = document.getElementById("paletteInput").value;
+      const palette = document.getElementById("paletteInput").value;
 
-      // parent.postMessage({
-      //   type: "create",
-      //   gradientType: "linear",
-      //   angle: angle,
-      //   paletteNo: paletteNo,
-      // });
 
-      parent.postMessage({ pluginMessage: { type: 'createLinear', gradientType:"LINEAR",   angle } }, '*')
+
+      parent.postMessage({ pluginMessage: { type: 'createLinear', palette, angle } }, '*')
 
     }
+
+
   });
+
+  document.getElementById("cancel").addEventListener("click", () => {
+    parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+  })
 </script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,500&family=Space+Grotesk:wght@300;400;500&display=swap');
@@ -342,6 +350,8 @@ document.getElementById("create").addEventListener("click", () => {
     font-family: 'Space Grotesk', cursive;
     padding-top: 10px;
     align-self: center;
+    background: #000;
+    color: white;
   }
 
   .menu-bar {
@@ -423,8 +433,750 @@ document.getElementById("create").addEventListener("click", () => {
     border-radius: 50%;
   }
 
- #meshGradientInput{
-  display: none;
- }
+  #linearGradientInputContainer {
+    display: none;
+  }
 
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    top: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  input:checked+.slider {
+    background-color: #000000;
+  }
+
+  input:focus+.slider {
+    box-shadow: 0 0 1px #000000;
+  }
+
+  input:checked+.slider:before {
+    -webkit-transform: translateX(18px);
+    -ms-transform: translateX(18px);
+    transform: translateX(18px);
+  }
+
+  .slider.round {
+    border-radius: 50px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+
+  .switch-label {
+    line-height: 24px;
+  }
+
+  .switch-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+  .toggle{
+    cursor: pointer;
+    border: 2px solid red;
+  }
+  .toggleLabel{
+    width: 70px;
+    border: 2px solid red;
+  }
+</style>
+ -->
+
+
+ <!-- <link rel="stylesheet" href="plugin.css"> -->
+ <body>
+
+
+  <div class="main">
+
+      <div class="glass-container">
+          <div class="contents-group">
+              <div class="toggle-container">
+                  <div id="ToggleLin" class="toggle">
+                      Linear
+                  </div>
+                  <div id="ToggleMesh" class="toggle-inactive">
+                      Mesh
+                  </div>
+
+              </div>
+
+              <div id="meshMenu">
+                  <div class="bg-container">
+                      <div class="bglabel-title">Background</div>
+                      <div class="bg-div">
+                          <span class="bglabel">Light</span>
+                          <label class="switch" for="darkbg">
+                              <input type="checkbox" id="darkbg" value="dark">
+                              <span class="slider round"></span>
+                          </label>
+                          <span class="bglabel">Dark</span>
+                      </div>
+                  </div>
+                  <div class="opacity-container">
+                      <div class="noiselabel">Noise Opacity</div>
+                      <input type="range" name="noise" id="noiseMesh" class="noise-inputfeild" min="0" max="100">
+                  </div>
+              </div>
+
+              <div id="linearMenu">
+                  <div class="select-menu-container">
+                      <div class="select-menu-label">select color palette</div>
+                      <select id="palette">
+                          <option id="pastel" value="1">pastel colors </option>
+                          <option  id="neon" value="2">Neon colors</option>
+                          <option id="cold" value="3">cold colors </option>
+                          <option id="warm" value="4">warm colors</option>
+                      </select>
+                  </div>
+                  <div class="angle-container">
+                      <div class="Anglelabel">Angle</div>
+                      <input type="range" name="angle" id="angle"  step="45" class="angle-inputfeild" min="0" max="360">
+                  </div>
+                  <div class="opacity-container">
+                      <div class="noiselabel">Noise Opacity</div>
+                      <input type="range" name="noise" id="noiseLinear" class="noise-inputfeild" min="0" max="100">
+                  </div>
+              </div>
+          </div>
+          <div class="buttons-container">
+              <button id="create" class="button ">Create</button>
+              <button id="cancel" class="button ">Cancel</button>
+          </div>
+      </div>
+
+
+      
+      <script>
+      
+          const meshSel = document.getElementById("ToggleMesh");
+          const linsel = document.getElementById("ToggleLin");
+
+          let Mesh; let Lin;
+          meshSel.onclick = () => {
+              meshMenu.style.display = "flex";
+              linearMenu.style.display = "none";
+              Mesh = true; Lin = false;
+              linsel.classList.remove("toggle")
+              linsel.classList.add("toggle-inactive")
+              meshSel.classList.add("toggle")
+              meshSel.classList.remove("toggle-inactive")
+          }
+
+          linsel.onclick = () => {
+              linearMenu.style.display = "flex";
+              meshMenu.style.display = "none";
+              Mesh = false; Lin = true;
+              meshSel.classList.remove("toggle")
+              meshSel.classList.add("toggle-inactive")
+              linsel.classList.add("toggle")
+              linsel.classList.remove("toggle-inactive")
+          }
+
+          document.getElementById("create").addEventListener("click", () => {
+   
+    console.log("mesh is selected", Mesh)
+    console.log("linaer is selected", Lin)
+
+
+    if (Mesh) {
+      const bgCheckbox = document.getElementById("darkbg").checked;
+      const bgType = bgCheckbox ? "dark" : "light";
+      const MeshOpacity = document.getElementById("noiseMesh").value /100
+      // console.log("ui" , opacity )
+      parent.postMessage({ pluginMessage: { type: 'createMesh', bgType ,MeshOpacity } }, '*')
+
+    }
+    else {
+      const angle = document.getElementById("angle").value;
+      const palette = document.getElementById("palette").value;
+      const LinOpacity = document.getElementById("noiseLinear").value /100
+
+
+
+      parent.postMessage({ pluginMessage: { type: 'createLinear', palette, angle, LinOpacity } }, '*')
+
+    }
+
+
+  });
+
+  document.getElementById("cancel").addEventListener("click", () => {
+    parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+  })
+
+      </script>
+</body>
+<style>
+
+
+
+
+body{
+  background: #000;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+}
+.main {
+ 
+  align-items: center;
+  width: 262px;
+  /* outline: 2px solid #1f17ff; */
+  height: 328px;
+  box-sizing: border-box;
+  background-color: #1c1c1c;
+  /* background-image: url("./sky.png"); */
+  background-repeat: no-repeat;
+  background-size: 500px;
+
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glass-container {
+  /* Auto layout */
+  align-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  /* gap: 23px; */
+
+  width: 230px;
+  height: 296px;
+  background: rgba(255, 255, 255, 0.1);
+  /* Style */
+
+  box-shadow: 0px 8px 6px rgba(0, 0, 0, 0.05),
+    inset 0px -1px 1px rgba(255, 255, 255, 0.1),
+    inset 0px 1px 1px rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(50px);
+  /* Note: backdrop-filter has minimal browser support */
+  box-sizing: border-box;
+  border-radius: 24px;
+}
+
+.contents-group {
+  width: 198px;
+  /* height: 176px; */
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* linear mesh toggle */
+
+.toggle-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px;
+  box-sizing: border-box;
+  width: 198px;
+  height: 46px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 6.74428px 5.05821px rgba(0, 0, 0, 0.05),
+    inset 0px -0.843035px 0.843035px rgba(255, 255, 255, 0.1),
+    inset 0px 0.843035px 0.843035px rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(42.1518px);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 32px;
+
+}
+
+.toggle {
+  display: flex;
+  cursor: pointer;
+  flex-direction: row;
+  justify-content: center;
+  /* padding-right: 20px; */
+  align-items: center;
+  padding-top: 6px;  
+
+  padding-bottom: 6px;
+  width: 91px;
+  /* border: 2px solid red; */
+  height: 34px;
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 32px;
+  transition: all 1s ease-in-out ;
+}
+
+/* use this when the particular toggle (bw mesh and linear is selected for the non selected element) */
+.toggle-inactive {
+  
+  display: flex;
+  cursor: pointer;
+  flex-direction: row;
+  justify-content: center;
+  /* padding-right: 20px; */
+  align-items: center;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  width: 91px;
+  /* border: 2px solid red; */
+  height: 34px;
+  border-radius: 32px;
+  cursor: pointer;
+  /* border: blue 2px solid; */
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.toggle :hover {
+  border: 2px solid red;
+}
+
+.toggle-label {
+  font-style: normal;
+  font-weight: 500;
+  /* identical to box height, or 183% */
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.202328px;
+}
+/* end */
+
+
+
+
+
+
+
+
+
+
+
+#meshMenu {
+  width: 198px;
+  height: 106px;
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  display: none;
+  /* box-sizing: border-box; */
+  flex-direction: column;
+}
+
+/* bgtoggle */
+
+.bg-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+  width: 198px;
+  height: 50px;
+}
+
+.bglabel-title {
+  width: 70px;
+  height: 18px;
+  font-weight: 400;
+  line-height: 18px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.bg-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 8px;
+  gap: 16px;
+
+  width: 198px;
+  height: 24px;
+}
+.bglabel {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* toggle*/
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.3);
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2.5px;
+  top: 2.3px;
+  background-color: rgb(255, 255, 255);
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+input:checked + .slider {
+  background-color: rgba(8, 8, 8, 1);
+  outline: 1px solid white;
+}
+
+input:checked + .slider::before {
+  background: rgb(255, 255, 255);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(25px);
+  -ms-transform: translateX(25px);
+  transform: translateX(25px);
+}
+
+.slider.round {
+  border-radius: 50px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.switch-label {
+  line-height: 24px;
+}
+
+.switch-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* bg checkbox end */
+
+/* opacity */
+.opacity-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px;
+  width: 198px;
+  height: 32px;
+}
+
+.noiselabel {
+  width: 130px;
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+/* range styling  */
+/* for range input */
+input[type="range"] {
+  height: 8px;
+  appearance: none;
+  margin: 10px 0;
+  background-color: transparent;
+  width: 100%;
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0px 0px 0px #1f17ff;
+  background: rgba(235, 235, 245, 0.3);
+  border-radius: 7px;
+  border: 1px solid rgba(235, 235, 245, 0.3);
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(67.955px);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #ff9e3d;
+  border: 0px solid #2497e3;
+  height: 16px;
+  width: 16px;
+  border-radius: 19px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -2.5px;
+}
+
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: rgba(235, 235, 245, 0.1);
+}
+
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0px 0px 0px #1f17ff;
+  background: #969696;
+  border-radius: 7px;
+  border: 1px solid #d117ff;
+}
+
+input[type="range"]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #ff9e3d;
+  border: 0px solid #2497e3;
+  height: 12px;
+  width: 12px;
+  border-radius: 19px;
+  background: #969696;
+  cursor: pointer;
+}
+
+input[type="range"]::-ms-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+input[type="range"]::-ms-fill-lower {
+  background: #1c1c1c;
+  border: 1px solid #d117ff;
+  border-radius: 14px;
+  box-shadow: 0px 0px 0px #1f17ff;
+}
+
+input[type="range"]::-ms-fill-upper {
+  background: rgba(235, 235, 245, 0.3);
+  border: 1px solid #d117ff;
+  border-radius: 14px;
+  box-shadow: 0px 0px 0px #1f17ff;
+}
+
+input[type="range"]::-ms-thumb {
+  margin-top: 1px;
+  box-shadow: 0px 0px 0px #ff9e3d;
+  border: 0px solid #2497e3;
+  height: 12px;
+  width: 12px;
+  border-radius: 19px;
+  background: rgba(235, 235, 245, 0.3);
+  cursor: pointer;
+}
+
+input[type="range"]:focus::-ms-fill-lower {
+  background: #1c1c1c;
+}
+
+input[type="range"]:focus::-ms-fill-upper {
+  background: #1c1c1c;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* linear menu */
+
+
+
+#linearMenu {
+  width: 198px;
+  height: 148px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-direction: column;
+}
+
+.select-menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+  width: 198px;
+  height: 56px;
+}
+.select-menu-label {
+  width: 130px;
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+#palette {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 10px;
+  width: 198px;
+  height: 30px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 6.74428px 5.05821px rgba(0, 0, 0, 0.05),
+    inset 0px -0.843035px 0.843035px rgba(255, 255, 255, 0.1),
+    inset 0px 0.843035px 0.843035px rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(42.1518px);
+  border-radius: 44.6998px;
+}
+
+#palette:focus{
+  border:none;
+
+}
+
+
+
+#palette > option {
+  width: 20px;
+  padding: 20px;
+  color: black;
+}
+
+.angle-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px;
+  width: 198px;
+  height: 32px;
+}
+.Anglelabel {
+  width: 130px;
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+  width: 191px;
+  height: 30px;
+}
+
+.button {
+  display: inline-block;
+  border: 0;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 2.66346px 3.32933px rgba(0, 0, 0, 0.05),
+    inset 0px -0.110978px 0.110978px rgba(255, 255, 255, 0.25),
+    inset 0px 0.110978px 0.110978px rgba(255, 255, 255, 0.25);
+  height: 34px;
+  border-radius: 55.4888px;
+  padding: 6px 26px;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 55.4888px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
 </style>
