@@ -1,4 +1,7 @@
+
 <body>
+
+
   <div class="main">
 
     <div class="glass-container">
@@ -10,6 +13,7 @@
           <div id="ToggleMesh" class="toggle-inactive">
             Mesh
           </div>
+
         </div>
 
         <div id="meshMenu">
@@ -59,6 +63,7 @@
 
 
     <script>
+
       const meshSel = document.getElementById("ToggleMesh");
       const linsel = document.getElementById("ToggleLin");
 
@@ -101,8 +106,14 @@
           const angle = document.getElementById("angle").value;
           const palette = document.getElementById("palette").value;
           const LinOpacity = document.getElementById("noiseLinear").value / 100
+
+
+
           parent.postMessage({ pluginMessage: { type: 'createLinear', palette, angle, LinOpacity } }, '*')
+
         }
+
+
       });
 
       document.getElementById("cancel").addEventListener("click", () => {
@@ -127,11 +138,14 @@
   }
 
   .main {
+
     align-items: center;
     width: 262px;
+    /* outline: 2px solid #1f17ff; */
     height: 362px;
     box-sizing: border-box;
     background-color: #1c1c1c;
+    /* background-image: url("./sky.png"); */
     background-repeat: no-repeat;
     background-size: 500px;
 
@@ -149,19 +163,25 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px;
+    /* gap: 23px; */
+
     width: 230px;
     height: 330px;
     background: rgba(255, 255, 255, 0.1);
+    /* Style */
+
     box-shadow: 0px 8px 6px rgba(0, 0, 0, 0.05),
       inset 0px -1px 1px rgba(255, 255, 255, 0.1),
       inset 0px 1px 1px rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(50px);
+    /* Note: backdrop-filter has minimal browser support */
     box-sizing: border-box;
     border-radius: 24px;
   }
 
   .contents-group {
     width: 198px;
+    /* height: 176px; */
     display: flex;
     gap: 24px;
     flex-direction: column;
@@ -169,6 +189,7 @@
     box-sizing: border-box;
   }
 
+  /* linear mesh toggle */
 
   .toggle-container {
     display: flex;
@@ -184,6 +205,7 @@
       inset 0px -0.843035px 0.843035px rgba(255, 255, 255, 0.1),
       inset 0px 0.843035px 0.843035px rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(42.1518px);
+    /* Note: backdrop-filter has minimal browser support */
     border-radius: 32px;
 
   }
@@ -193,14 +215,19 @@
     cursor: pointer;
     flex-direction: row;
     justify-content: center;
+    /* padding-right: 20px; */
     align-items: center;
     padding-top: 6px;
+
     padding-bottom: 6px;
     width: 91px;
+    /* border: 2px solid red; */
     height: 34px;
     box-sizing: border-box;
+
     background: rgba(255, 255, 255, 0.3);
     border-radius: 32px;
+    /* transition: all 0.3s ease-in-out ; */
   }
 
   /* use this when the particular toggle (bw mesh and linear is selected for the non selected element) */
@@ -210,13 +237,16 @@
     cursor: pointer;
     flex-direction: row;
     justify-content: center;
+    /* padding-right: 20px; */
     align-items: center;
     padding-top: 6px;
     padding-bottom: 6px;
     width: 91px;
+    /* border: 2px solid red; */
     height: 34px;
     border-radius: 32px;
     cursor: pointer;
+    /* border: blue 2px solid; */
     background-color: transparent;
     color: rgba(255, 255, 255, 0.66);
   }
@@ -228,6 +258,7 @@
   .toggle-label {
     font-style: normal;
     font-weight: 500;
+    /* identical to box height, or 183% */
     font-size: 16px;
     line-height: 22px;
     letter-spacing: -0.202328px;
@@ -242,13 +273,18 @@
 
 
 
+
+
+
   #meshMenu {
     width: 198px;
     height: 106px;
+    /* display: flex; */
     align-items: center;
     justify-content: center;
     gap: 32px;
     display: none;
+    /* box-sizing: border-box; */
     flex-direction: column;
   }
 
@@ -518,6 +554,8 @@
 
   /* linear menu */
 
+
+
   #linearMenu {
     width: 198px;
     height: 148px;
@@ -568,6 +606,9 @@
   #palette:focus {
     border: none;
   }
+
+
+
 
   #palette>option {
     width: 20px;
