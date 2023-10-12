@@ -1,6 +1,5 @@
 
 # Gradify Figma Plugin
-# NOTE : 
 
   
 ## Check out the plugin in figma community : https://www.figma.com/community/plugin/1187380125870182667  (1000+ uses already ❤ )
