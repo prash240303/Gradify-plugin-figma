@@ -36,7 +36,7 @@
 
 ## 📝 Project Summary
 
-- [assets]([assets](https://fonts.google.com/)): Project assets such as images, fonts, and styles.
+- [assets](https://fonts.google.com/): Project assets such as images, fonts, and styles.
 - [node_modules](node_modules): Directory for installed dependencies.
 - [node_modules/@figma](node_modules/@figma): Figma-related modules and typings.
 - [node_modules/figma-plugin-ds](node_modules/figma-plugin-ds): Figma plugin design system library.
