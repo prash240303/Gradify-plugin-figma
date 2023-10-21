@@ -57,6 +57,9 @@
 - [node_modules/typescript/lib](node_modules/typescript/lib): Library files for different languages supported by TypeScript.
 - [node_modules/typescript/lib/es](node_modules/typescript/lib/es): TypeScript library files for Spanish language support.
 
+Gradify is a Figma plugin that allows designers to easily create beautiful gradients with unlimited color combinations according to your choice of colors. 
+You can create Linear Gradients and Mesh Gradients, with handpicked color combinations that makes the gradient look professionally pleasing .This plugin is built using HTML, CSS, and TypeScript and is intended to be used within the Figma design tool.
+
 
 ## 🚀Getting Started with Your Figma Plugin
 
