@@ -42,6 +42,8 @@
 
 - [HTML5]([https://github.com/axios/axios](https://developer.mozilla.org/en-US/docs/Glossary/HTML5)): HTML5 for front-end ui modal of plugin.
 - [vanilla CSS]([https://reactrouter.com/web/guides/quick-start](https://developer.mozilla.org/en-US/docs/Glossary/CSS)): For styling the modal HTML UI.
+- [typescript](https://www.typescriptlang.org): for writing the logic for the plugin gradient using Figma API methods.
+- [Figma API](https://www.figma.com/developers/api) : for accessing files , methods for creating frames , accessing figma tools and methods in typescript.
 
 
 ## 📝 Project Summary
