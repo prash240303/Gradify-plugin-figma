@@ -1,14 +1,14 @@
 
 # Gradify Figma Plugin
 
-  
+  ![gradify](https://github.com/prash240303/Gradify-plugin-figma/assets/93905743/82ba7f5a-f618-4418-9978-0fc8dac80982)
+
 ## Check out the plugin in figma community : https://www.figma.com/community/plugin/1187380125870182667  (1000+ uses already ❤ )
 
 
 Gradify is a Figma plugin that allows designers to easily create beautiful gradients with customizable color stops and preview them in real-time. This plugin is built using HTML, CSS, and JavaScript and is intended to be used within the Figma design tool.
 
-![image](https://user-images.githubusercontent.com/93905743/225101176-2814a0f8-7197-4072-a135-813ef2d08905.png)
-
+![image](https://github.com/prash240303/Gradify-plugin-figma/assets/93905743/8383bcca-8d94-4588-b040-4ed026606a01)
 
 
 
