@@ -11,9 +11,16 @@
 <img src="https://img.shields.io/github/discussions/prash240303/Gradify-plugin-figma" alt="GitHub discussions" />
 <img src="https://img.shields.io/github/issues/prash240303/Gradify-plugin-figma" alt="GitHub issues" />
 <img src="https://img.shields.io/github/issues-pr/prash240303/Gradify-plugin-figma" alt="GitHub pull request" />
+</p> 
+
+<p align="center">
+  Check out the plugin in Figma community:
+  <a href="https://www.figma.com/community/plugin/1187380125870182667/gradify" style="background-color: #0077B5; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; text-align: center;">Figma Community</a>
+  GitHub:
+  <a href="https://github.com/prash240303/Gradify-plugin-figma" style="background-color: #0077B5; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; text-align: center;">GitHub</a>
 </p>
 
-<p></p>
+
 <p></p>
 
 ## 🔍 Table of Contents
