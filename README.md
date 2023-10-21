@@ -1,6 +1,6 @@
 <p align="center">
 <a href=https://github.com/prash240303/Gradify-plugin-figma target="_blank">
-<img src='https://portfolio-prash.vercel.app/projects/iconify.png' width="100%" alt="Banner" />
+<img src='https://portfolio-prash.vercel.app/projects/gradify.png' width="100%" alt="Banner" />
 </a>
 </p>
 
